@@ -38,6 +38,7 @@
   // Scroll effects: headline drifts between the image layers, film frame unmasks
   var stages = Array.prototype.slice.call(document.querySelectorAll("[data-parallax-stage]"));
   var mask = document.querySelector("[data-reveal-mask]");
+  var doodles = Array.prototype.slice.call(document.querySelectorAll(".doodle"));
   if (reduce) {
     if (mask) mask.style.setProperty("--mask", "0%");
     return;
@@ -60,8 +61,15 @@
     if (mask) {
       var m = mask.getBoundingClientRect();
       var t = Math.min(Math.max((vh - m.top) / (vh * 0.75), 0), 1);
-      mask.style.setProperty("--mask", (14 * (1 - t)).toFixed(2) + "%");
+      mask.style.setProperty("--mask", (10 * (1 - t)).toFixed(2) + "%");
     }
+
+    // brand doodle draws itself as its card scrolls into view
+    doodles.forEach(function (svg) {
+      var d = svg.parentElement.getBoundingClientRect();
+      var k = Math.min(Math.max((vh - d.top) / (vh * 0.9), 0), 1);
+      svg.style.setProperty("--draw", (1 - k).toFixed(3));
+    });
   }
   function onScroll() {
     if (!ticking) { ticking = true; requestAnimationFrame(update); }

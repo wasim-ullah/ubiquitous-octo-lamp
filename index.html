@@ -10,19 +10,20 @@
 <meta property="og:description" content="Compare car insurance quotes from top UAE insurers and get covered in minutes. Toll free 800 765 429.">
 <meta property="og:image" content="https://d2ol7oe51mr4n9.cloudfront.net/user_3Di5qPzoAHKv5CR6Y1cNTvrEu5O/8d938721-3f81-46f4-abce-9f1b1217a7c1.webp">
 <meta name="twitter:card" content="summary_large_image">
-<meta name="theme-color" content="#101038">
+<meta name="theme-color" content="#000065">
 <link rel="icon" type="image/png" href="https://d2ol7oe51mr4n9.cloudfront.net/user_3Di5qPzoAHKv5CR6Y1cNTvrEu5O/21a41889-787d-4d8f-905a-2fdf1b7f1433.png">
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link rel="preconnect" href="https://d2ol7oe51mr4n9.cloudfront.net">
+<link rel="preload" as="font" type="font/woff" href="/fonts/RedditSans-ExtraBold.woff" crossorigin>
+<link rel="preload" as="font" type="font/woff" href="/fonts/RedditSans-Regular.woff" crossorigin>
 <link rel="preload" as="image" href="https://d2ol7oe51mr4n9.cloudfront.net/user_3Di5qPzoAHKv5CR6Y1cNTvrEu5O/8d938721-3f81-46f4-abce-9f1b1217a7c1.webp">
-<link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,400;12..96,600;12..96,800&family=Geist:wght@300;400;500;600&family=Geist+Mono:wght@400;500&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="/styles.css">
 </head>
 <body>
 
-<!-- page-wide image background, fixed behind every section -->
-<div class="page-bg" aria-hidden="true"><img src="https://d2ol7oe51mr4n9.cloudfront.net/user_3Di5qPzoAHKv5CR6Y1cNTvrEu5O/a5b56685-f336-411a-962a-dd5ea7683354.webp" alt=""></div>
+<!-- Page-wide background: a still from the film, washed in brand blue -->
+<div class="page-bg" aria-hidden="true">
+  <img src="https://d2ol7oe51mr4n9.cloudfront.net/user_3Di5qPzoAHKv5CR6Y1cNTvrEu5O/a5b56685-f336-411a-962a-dd5ea7683354.webp" alt="">
+</div>
 
 <header class="nav">
   <div class="wrap nav-row">
@@ -32,15 +33,15 @@
     <nav class="nav-links" aria-label="Sections">
       <a href="#how">How it works</a>
       <a href="#why">Why us</a>
-      <a href="#insurers">Insurers</a>
+      <a href="#more">More cover</a>
     </nav>
-    <a class="nav-quote" href="#quote">Get a Quote</a>
+    <a class="nav-quote" href="#quote">Get Quote</a>
   </div>
 </header>
 
 <main>
 
-  <!-- I. Hero: layered still from the film, headline sits between sky and drivers -->
+  <!-- Hero: layered still from the film -->
   <section class="hero" aria-labelledby="hero-title">
     <div class="hero-stage" data-parallax-stage>
       <img class="layer layer--bg" src="https://d2ol7oe51mr4n9.cloudfront.net/user_3Di5qPzoAHKv5CR6Y1cNTvrEu5O/8d938721-3f81-46f4-abce-9f1b1217a7c1.webp" alt="" aria-hidden="true">
@@ -49,145 +50,192 @@
       <div class="hero-fade" aria-hidden="true"></div>
     </div>
     <div class="wrap hero-bar">
-      <h1 id="hero-title" class="hero-h1">Don't carry the damage alone.</h1>
-      <p class="hero-lede">Compare car insurance quotes from top UAE insurers, save up to 30%, and get your policy in minutes.</p>
-      <div class="hero-ctas">
-        <a class="btn-primary" href="#quote">
-          Get a Quote
-          <svg aria-hidden="true" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M13 6l6 6-6 6"/></svg>
-        </a>
-        <a class="call" href="tel:800765429"><span class="mono">Toll free 800 765 429</span></a>
+      <div>
+        <span class="chip chip--light"><span class="chip-ico chip-ico--orange"><i class="ico ico--car"></i></span>Car Insurance</span>
+        <h1 id="hero-title" class="hero-h1">Don't carry the damage alone.</h1>
+      </div>
+      <div class="hero-side">
+        <p class="hero-lede">Compare car insurance quotes from top UAE insurers, save up to 30%, and get your policy in minutes.</p>
+        <div class="hero-ctas">
+          <a class="btn btn--orange" href="#quote">
+            Get Quote
+            <svg aria-hidden="true" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M13 6l6 6-6 6"/></svg>
+          </a>
+          <a class="call" href="tel:800765429">800 765 429</a>
+        </div>
       </div>
     </div>
   </section>
 
-  <!-- II. Statement + proof -->
+  <!-- Statement card + proof -->
   <section class="block">
     <div class="wrap">
-      <p class="statement reveal">Every Dubai driver has a trunk story. The calm ones end theirs with a single phone call.</p>
-      <dl class="proof reveal">
-        <div><dt>4.9<small>/5</small></dt><dd>Google rating from 1,646 reviews</dd></div>
-        <div><dt>30<small>%</small></dt><dd>Savings of up to 30% on your premium</dd></div>
-        <div><dt><small>AED</small>1.2</dt><dd>Car insurance from AED 1.2 per day</dd></div>
-        <div><dt>60<small>min</small></dt><dd>Policy issued in about 60 minutes</dd></div>
-      </dl>
+      <div class="card card--ice statement-card reveal">
+        <svg class="doodle doodle--statement" viewBox="0 0 1470 2000" fill="none" aria-hidden="true">
+          <path data-draw pathLength="1" d="M300 145C470 103 620 92 760 105C990 126 1135 300 1135 580C1135 850 900 1037 570 1037C350 1037 210 935 210 825C210 700 360 610 620 640C1010 690 1365 960 1365 1310C1365 1530 1260 1690 1130 1765C1010 1835 900 1860 800 1860C560 1860 330 1680 145 1370C210 1510 300 1800 90 1890"/>
+        </svg>
+        <p class="statement">All online.<br>All transparent.<br>All about you.</p>
+        <dl class="proof">
+          <div><dt>4.9<small>/5</small></dt><dd>Google rating from 1,646 reviews</dd></div>
+          <div><dt>30<small>%</small></dt><dd>Savings of up to 30% on your premium</dd></div>
+          <div><dt><small>AED</small>1.2</dt><dd>Car insurance from AED 1.2 per day</dd></div>
+          <div><dt>60<small>min</small></dt><dd>Policy issued in about 60 minutes</dd></div>
+        </dl>
+      </div>
     </div>
   </section>
 
-  <!-- III. The film: clean, no overlay, mask reveal on scroll -->
+  <!-- The film: clean, no overlay -->
   <section class="block film-block" aria-label="Campaign film">
-    <div class="wrap">
-      <div class="film-head reveal">
-        <span class="label mono">The film</span>
-        <h2 class="h2">Fifteen seconds. One bumper. Zero drama.</h2>
-      </div>
+    <div class="wrap film-head reveal">
+      <h2 class="h2 h2--light">Fifteen seconds. One bumper. Zero drama.</h2>
+      <span class="tag tag--peach">Compare, choose, buy</span>
     </div>
     <div class="film-frame" data-reveal-mask>
       <video class="film" autoplay muted loop playsinline preload="none"
         poster="https://d2ol7oe51mr4n9.cloudfront.net/user_3Di5qPzoAHKv5CR6Y1cNTvrEu5O/fc447b1a-228d-4652-b4f5-a45f6f2eebd0.jpg"
         data-src="https://d2ol7oe51mr4n9.cloudfront.net/user_3Di5qPzoAHKv5CR6Y1cNTvrEu5O/7a6adfc8-72d9-4324-a6bc-e2a928fcc49e.mp4"></video>
     </div>
-    <div class="wrap">
-      <p class="film-caption mono reveal">Chapter one: the first dent. Sound off, as most Dubai traffic stories should be.</p>
-    </div>
   </section>
 
-  <!-- IV. How it works -->
+  <!-- How it works: three brand-colour cards -->
   <section class="block" id="how">
     <div class="wrap">
-      <h2 class="h2 reveal">Covered in three chapters.</h2>
-      <ol class="chapters">
-        <li class="reveal"><span class="numeral">I</span><div><h3>Get quotes</h3><p>Tell us about your car and the cover you need. It takes a couple of minutes.</p></div></li>
-        <li class="reveal"><span class="numeral">II</span><div><h3>Compare and choose</h3><p>See quotes straight from insurers side by side, benefits and prices included. No hidden costs.</p></div></li>
-        <li class="reveal"><span class="numeral">III</span><div><h3>Buy and relax</h3><p>Pay the way you like and receive your policy within minutes. Then finish your karak.</p></div></li>
+      <h2 class="h2 h2--light reveal">Covered in three steps.</h2>
+      <ol class="steps">
+        <li class="card card--blue reveal">
+          <span class="step-n">01</span>
+          <h3>Get quotes</h3>
+          <p>Tell us about your car and the cover you need. It takes a couple of minutes.</p>
+        </li>
+        <li class="card card--mint reveal">
+          <span class="step-n">02</span>
+          <h3>Compare and choose</h3>
+          <p>See quotes straight from insurers side by side, benefits and prices included.</p>
+        </li>
+        <li class="card card--peach reveal">
+          <span class="step-n">03</span>
+          <h3>Buy and relax</h3>
+          <p>Pay the way you like and receive your policy within minutes. Then finish your karak.</p>
+        </li>
       </ol>
     </div>
   </section>
 
-  <!-- V. Why us -->
+  <!-- Why us: car illustration + values -->
   <section class="block" id="why">
     <div class="wrap why-grid">
-      <h2 class="h2 reveal">Be the driver who finishes his tea.</h2>
-      <div class="why-items">
-        <div class="why reveal"><h3>Convenient</h3><p>Buy from home. No agent visits, no insurer office queues.</p></div>
-        <div class="why reveal"><h3>Informative</h3><p>Detailed quotes from multiple insurers, so you compare real cover, not just price.</p></div>
-        <div class="why reveal"><h3>Transparent</h3><p>Quotes come directly from insurers, with no hidden costs.</p></div>
-        <div class="why reveal"><h3>Here at 2am</h3><p>24x7 multilingual support, backed by 15+ years of unbiased advice.</p></div>
+      <figure class="card card--art reveal">
+        <img src="/illustrations/car.webp" alt="Illustration of a red car" loading="lazy" width="1200" height="1200">
+        <figcaption>Car<br>Insurance</figcaption>
+      </figure>
+      <div class="card card--navy why-card reveal">
+        <h2 class="h2">Smart insurance. Human service. All in one place.</h2>
+        <ul class="why-list">
+          <li><h3>Convenient</h3><p>Buy from home. No agent visits, no insurer office queues.</p></li>
+          <li><h3>Informative</h3><p>Detailed quotes from multiple insurers, so you compare real cover, not just price.</p></li>
+          <li><h3>Transparent</h3><p>Quotes come directly from insurers, with no hidden costs.</p></li>
+          <li><h3>Here at 2am</h3><p>24x7 multilingual support, backed by 15+ years of unbiased advice.</p></li>
+        </ul>
       </div>
     </div>
   </section>
 
-  <!-- VI. Insurers -->
-  <section class="block" id="insurers">
+  <!-- Insurers -->
+  <section class="block block--tight">
     <div class="wrap">
-      <h2 class="h2 reveal">Quotes from insurers you already know.</h2>
-      <ul class="insurers reveal">
-        <li>Adamjee</li><li>Salama</li><li>Watania</li><li>United</li><li>Insurance House</li>
-        <li>Dubai National</li><li>Al Buhaira</li><li>Al Sagr</li><li>Al Wathba National</li><li>Tokio Marine</li>
-      </ul>
+      <div class="card card--lilac reveal">
+        <h2 class="h2">Quotes from insurers you already know.</h2>
+        <ul class="insurers">
+          <li>Adamjee</li><li>Salama</li><li>Watania</li><li>United</li><li>Insurance House</li>
+          <li>Dubai National</li><li>Al Buhaira</li><li>Al Sagr</li><li>Al Wathba National</li><li>Tokio Marine</li>
+        </ul>
+      </div>
     </div>
   </section>
 
-  <!-- VII. Quote -->
+  <!-- Quote -->
   <section class="block" id="quote">
-    <div class="wrap quote-grid">
-      <div class="reveal">
-        <h2 class="h2">Get your quote before the next rain.</h2>
-        <p class="body-lg">Share a few details and our team replies on WhatsApp with quotes from leading UAE insurers.</p>
-        <a class="call call--lg" href="tel:800765429"><span class="mono">Prefer to talk? 800 765 429</span></a>
-      </div>
-      <form class="form reveal" id="quote-form" novalidate>
-        <div class="fields">
-          <div class="field"><label for="q-name">Full name</label><input id="q-name" name="name" autocomplete="name"></div>
-          <div class="field"><label for="q-phone">Mobile number</label><input id="q-phone" name="phone" type="tel" autocomplete="tel" placeholder="05X XXX XXXX"></div>
-          <div class="field"><label for="q-car">Car make and model</label><input id="q-car" name="car"></div>
-          <div class="field"><label for="q-year">Model year</label><input id="q-year" name="year" inputmode="numeric" maxlength="4"></div>
-          <div class="field"><label for="q-emirate">Emirate</label>
-            <select id="q-emirate" name="emirate">
-              <option>Dubai</option><option>Abu Dhabi</option><option>Sharjah</option><option>Ajman</option>
-              <option>Ras Al Khaimah</option><option>Fujairah</option><option>Umm Al Quwain</option>
-            </select>
-          </div>
-          <div class="field"><label for="q-cover">Cover type</label>
-            <select id="q-cover" name="cover"><option>Comprehensive</option><option>Third party</option><option>Not sure yet</option></select>
-          </div>
+    <div class="wrap">
+      <div class="card card--blue quote-card reveal">
+        <svg class="doodle doodle--quote" viewBox="0 0 1470 2000" fill="none" aria-hidden="true">
+          <path data-draw pathLength="1" d="M300 145C470 103 620 92 760 105C990 126 1135 300 1135 580C1135 850 900 1037 570 1037C350 1037 210 935 210 825C210 700 360 610 620 640C1010 690 1365 960 1365 1310C1365 1530 1260 1690 1130 1765C1010 1835 900 1860 800 1860C560 1860 330 1680 145 1370C210 1510 300 1800 90 1890"/>
+        </svg>
+        <div class="quote-copy">
+          <h2 class="h2">Get your quote before the next rain.</h2>
+          <p class="body-lg">Share a few details and our team replies on WhatsApp with quotes from leading UAE insurers.</p>
+          <a class="call call--ice" href="tel:800765429">Prefer to talk? 800 765 429</a>
         </div>
-        <p class="form-error" id="form-error" role="alert" hidden></p>
-        <button type="submit" class="wa-submit">
-          <svg aria-hidden="true" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M21 11.5a8.4 8.4 0 0 1-12.5 7.4L3 20.5l1.6-5.3A8.4 8.4 0 1 1 21 11.5z"/></svg>
-          Send on WhatsApp
-        </button>
-        <p class="form-note">Opens WhatsApp with your details filled in. Nothing is sent until you press send.</p>
-      </form>
+        <form class="form" id="quote-form" novalidate>
+          <div class="fields">
+            <div class="field"><label for="q-name">Full name</label><input id="q-name" name="name" autocomplete="name"></div>
+            <div class="field"><label for="q-phone">Mobile number</label><input id="q-phone" name="phone" type="tel" autocomplete="tel" placeholder="05X XXX XXXX"></div>
+            <div class="field"><label for="q-car">Car make and model</label><input id="q-car" name="car"></div>
+            <div class="field"><label for="q-year">Model year</label><input id="q-year" name="year" inputmode="numeric" maxlength="4"></div>
+            <div class="field"><label for="q-emirate">Emirate</label>
+              <select id="q-emirate" name="emirate">
+                <option>Dubai</option><option>Abu Dhabi</option><option>Sharjah</option><option>Ajman</option>
+                <option>Ras Al Khaimah</option><option>Fujairah</option><option>Umm Al Quwain</option>
+              </select>
+            </div>
+            <div class="field"><label for="q-cover">Cover type</label>
+              <select id="q-cover" name="cover"><option>Comprehensive</option><option>Third party</option><option>Not sure yet</option></select>
+            </div>
+          </div>
+          <p class="form-error" id="form-error" role="alert" hidden></p>
+          <button type="submit" class="btn btn--navy btn--block">Send on WhatsApp</button>
+          <p class="form-note">Opens WhatsApp with your details filled in. Nothing is sent until you press send.</p>
+        </form>
+      </div>
+    </div>
+  </section>
+
+  <!-- More cover: brand illustrations + icon tiles -->
+  <section class="block" id="more">
+    <div class="wrap">
+      <h2 class="h2 h2--light reveal">Insure anything else while you're here.</h2>
+      <div class="more-grid reveal">
+        <a class="tile tile--art tile--orange" href="https://www.buyanyinsurance.ae/en"><img src="/illustrations/heart.webp" alt="" loading="lazy"><span>Health</span></a>
+        <a class="tile tile--art tile--green" href="https://www.buyanyinsurance.ae/en"><img src="/illustrations/pet.webp" alt="" loading="lazy"><span>Pet</span></a>
+        <a class="tile tile--art tile--lilac" href="https://www.buyanyinsurance.ae/en"><img src="/illustrations/home.webp" alt="" loading="lazy"><span>Home</span></a>
+        <a class="tile tile--ico tile--ice" href="https://www.buyanyinsurance.ae/en"><i class="ico ico--airplane"></i><span>Travel</span></a>
+        <a class="tile tile--ico tile--navy" href="https://www.buyanyinsurance.ae/en"><i class="ico ico--bike"></i><span>Bike</span></a>
+        <a class="tile tile--ico tile--peach" href="https://www.buyanyinsurance.ae/en"><i class="ico ico--yacht"></i><span>Yacht</span></a>
+        <a class="tile tile--ico tile--mint" href="https://www.buyanyinsurance.ae/en"><i class="ico ico--jetski"></i><span>Jet Ski</span></a>
+        <a class="tile tile--ico tile--maroon" href="https://www.buyanyinsurance.ae/en"><i class="ico ico--wedding"></i><span>Wedding</span></a>
+        <a class="tile tile--ico tile--blue" href="https://www.buyanyinsurance.ae/en"><i class="ico ico--group"></i><span>Group</span></a>
+      </div>
     </div>
   </section>
 
 </main>
 
-<!-- Footer: second layered still, line sits behind the driver on the phone -->
+<!-- Footer: second still from the film -->
 <footer class="footer">
-  <div class="footer-stage" data-parallax-stage>
+  <div class="footer-stage">
     <img class="layer layer--bg" src="https://d2ol7oe51mr4n9.cloudfront.net/user_3Di5qPzoAHKv5CR6Y1cNTvrEu5O/93a6d956-cf25-4ce4-9db6-2763fcb76343.webp" alt="" aria-hidden="true" loading="lazy">
     <div class="footer-fade" aria-hidden="true"></div>
     <div class="wrap footer-cta">
       <p class="footer-title">Stay calm.<br>You're covered.</p>
-      <a class="btn-primary" href="#quote">
-        Get a Quote
-        <svg aria-hidden="true" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M13 6l6 6-6 6"/></svg>
+      <a class="btn btn--orange" href="#quote">
+        Get Quote
+        <svg aria-hidden="true" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M13 6l6 6-6 6"/></svg>
       </a>
     </div>
   </div>
-  <div class="wrap footer-grid">
-    <div>
-      <img class="foot-logo" src="https://d2ol7oe51mr4n9.cloudfront.net/user_3Di5qPzoAHKv5CR6Y1cNTvrEu5O/f0d8b43a-d050-4efc-8faa-0bc30a8a1c23.png" alt="BuyAnyInsurance.ae" width="386" height="80">
-      <p class="muted">1406, DAMAC Smart Heights, Barsha Heights, Dubai, UAE</p>
+  <div class="footer-base">
+    <div class="wrap footer-grid">
+      <div>
+        <img class="foot-logo" src="https://d2ol7oe51mr4n9.cloudfront.net/user_3Di5qPzoAHKv5CR6Y1cNTvrEu5O/f0d8b43a-d050-4efc-8faa-0bc30a8a1c23.png" alt="BuyAnyInsurance.ae" width="386" height="80">
+        <p class="muted">Head Office<br>1406, DAMAC Smart Heights, Barsha Heights, Dubai, UAE</p>
+      </div>
+      <div class="foot-links">
+        <a href="tel:800765429">Toll free 800 765 429</a>
+        <a href="https://wa.me/971581935845" target="_blank" rel="noopener">WhatsApp +971 58 193 5845</a>
+        <a href="https://www.buyanyinsurance.ae/en">buyanyinsurance.ae</a>
+      </div>
+      <p class="legal">Insurance is provided by North Star Insurance Brokers, License No. 227, Insurance Authority. Premium Choice Marketing LLC owns the BuyAnyInsurance brand name. Insurance is the subject matter of solicitation.</p>
     </div>
-    <div class="foot-links">
-      <a href="tel:800765429">Toll free 800 765 429</a>
-      <a href="https://wa.me/971581935845" target="_blank" rel="noopener">WhatsApp +971 58 193 5845</a>
-      <a href="https://www.buyanyinsurance.ae/en">buyanyinsurance.ae</a>
-    </div>
-    <p class="legal">Insurance is provided by North Star Insurance Brokers, License No. 227, Insurance Authority. Premium Choice Marketing LLC owns the BuyAnyInsurance brand name. Insurance is the subject matter of solicitation.</p>
   </div>
 </footer>
 
