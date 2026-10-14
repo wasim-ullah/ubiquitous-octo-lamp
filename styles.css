@@ -172,7 +172,7 @@ h1, h2, h3, p, figure { margin: 0; }
 .doodle path { stroke: var(--orange); stroke-width: 48; stroke-dasharray: 1; stroke-dashoffset: var(--draw, 0); }
 .doodle--statement { width: clamp(200px, 18vw, 260px); right: 32px; top: -70px; }
 .doodle--quote { width: clamp(200px, 24vw, 340px); left: -60px; bottom: -120px; opacity: 0.95; }
-@media (max-width: 767px) { .doodle--statement { width: 150px; right: -40px; top: -60px; } }
+@media (max-width: 767px) { .doodle--statement { width: 110px; right: -36px; top: -84px; } .statement-card { padding-top: 56px; } }
 
 /* film */
 .film-head { display: flex; flex-wrap: wrap; align-items: flex-end; justify-content: space-between; gap: 24px; margin-bottom: 36px; }
