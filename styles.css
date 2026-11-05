@@ -96,7 +96,7 @@ h1, h2, h3, p, figure { margin: 0; }
 .call--ice { margin-top: 28px; color: var(--ice); }
 
 /* ---------- nav ---------- */
-.nav { position: absolute; inset: 0 0 auto 0; z-index: 30; }
+.nav { position: absolute; inset: 0 0 auto 0; z-index: 30; color: #fff; }
 .nav-row { height: 84px; display: flex; align-items: center; justify-content: space-between; gap: 20px; }
 .nav-logo { height: 24px; width: auto; }
 @media (min-width: 768px) { .nav-logo { height: 32px; } }
@@ -174,7 +174,7 @@ h1, h2, h3, p, figure { margin: 0; }
 .doodle path { stroke: var(--orange); stroke-width: 48; stroke-dasharray: 1; stroke-dashoffset: var(--draw, 0); }
 .doodle--statement { width: clamp(150px, 14vw, 210px); right: 48px; top: 40px; }
 .doodle--quote { width: clamp(180px, 18vw, 260px); left: auto; right: -40px; bottom: -150px; z-index: 0; }
-@media (max-width: 767px) { .doodle--statement { width: 90px; right: 16px; top: 16px; } .statement { padding-right: 70px; } }
+@media (max-width: 767px) { .doodle--statement { width: 72px; right: 14px; top: 14px; } .statement { padding-right: 36px; font-size: 38px; } }
 
 /* film */
 .film-head { margin-bottom: 36px; }
