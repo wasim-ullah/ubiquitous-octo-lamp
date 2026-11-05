@@ -79,16 +79,19 @@
   update();
 })();
 
-// Quote form: opens WhatsApp with the driver's details prefilled
+// Quote form: emails each lead to the BuyAnyInsurance team via FormSubmit
 (function () {
-  var WHATSAPP = "971581935845";
+  var ENDPOINT = "https://formsubmit.co/ajax/wasim.ullah@buyanyinsurance.com";
   var form = document.getElementById("quote-form");
   var err = document.getElementById("form-error");
+  var done = document.getElementById("form-done");
+  var btn = document.getElementById("q-submit");
   if (!form) return;
 
   form.addEventListener("submit", function (e) {
     e.preventDefault();
     var d = new FormData(form);
+    if (String(d.get("_honey") || "")) return; // bot trap
     var name = String(d.get("name") || "").trim();
     var phone = String(d.get("phone") || "").trim();
     var car = String(d.get("car") || "").trim();
@@ -100,15 +103,40 @@
       return;
     }
     err.hidden = true;
+    btn.disabled = true;
+    btn.textContent = "Sending...";
 
-    var msg =
-      "Hi BuyAnyInsurance, I'd like a car insurance quote.\n" +
-      "Name: " + name + "\n" +
-      "Mobile: " + phone + "\n" +
-      "Car: " + car + (year ? " (" + year + ")" : "") + "\n" +
-      "Emirate: " + d.get("emirate") + "\n" +
-      "Cover: " + d.get("cover");
+    var payload = {
+      _subject: "New car insurance lead: " + name + " (" + car + ")",
+      _template: "table",
+      _captcha: "false",
+      Name: name,
+      Mobile: phone,
+      Car: car + (year ? " (" + year + ")" : ""),
+      Emirate: String(d.get("emirate")),
+      Cover: String(d.get("cover")),
+      Page: window.location.href
+    };
 
-    window.open("https://wa.me/" + WHATSAPP + "?text=" + encodeURIComponent(msg), "_blank", "noopener");
+    fetch(ENDPOINT, {
+      method: "POST",
+      headers: { "Content-Type": "application/json", "Accept": "application/json" },
+      body: JSON.stringify(payload)
+    })
+      .then(function (r) { return r.json().then(function (j) { return { ok: r.ok, j: j }; }); })
+      .then(function (res) {
+        if (!res.ok || String(res.j.success) === "false") throw new Error(res.j.message || "Send failed");
+        form.querySelector(".fields").hidden = true;
+        btn.hidden = true;
+        form.querySelector(".form-note").hidden = true;
+        done.hidden = false;
+        if (window.fbq) window.fbq("track", "Lead");
+      })
+      .catch(function () {
+        err.innerHTML = 'Sorry, that did not go through. Please call <a href="tel:800765429">800 765 429</a> or <a href="https://wa.me/971581935845" target="_blank" rel="noopener">WhatsApp us</a>.';
+        err.hidden = false;
+        btn.disabled = false;
+        btn.textContent = "Get my quotes";
+      });
   });
 })();

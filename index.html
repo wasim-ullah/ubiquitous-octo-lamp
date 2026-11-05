@@ -11,7 +11,7 @@
 <meta property="og:image" content="https://d2ol7oe51mr4n9.cloudfront.net/user_3Di5qPzoAHKv5CR6Y1cNTvrEu5O/8d938721-3f81-46f4-abce-9f1b1217a7c1.webp">
 <meta name="twitter:card" content="summary_large_image">
 <meta name="theme-color" content="#000065">
-<link rel="icon" type="image/png" href="https://d2ol7oe51mr4n9.cloudfront.net/user_3Di5qPzoAHKv5CR6Y1cNTvrEu5O/21a41889-787d-4d8f-905a-2fdf1b7f1433.png">
+<link rel="icon" type="image/png" href="/brand/favicon.png">
 <link rel="preconnect" href="https://d2ol7oe51mr4n9.cloudfront.net">
 <link rel="preload" as="font" type="font/woff" href="/fonts/RedditSans-ExtraBold.woff" crossorigin>
 <link rel="preload" as="font" type="font/woff" href="/fonts/RedditSans-Regular.woff" crossorigin>
@@ -28,7 +28,7 @@
 <header class="nav">
   <div class="wrap nav-row">
     <a href="https://www.buyanyinsurance.ae/en" aria-label="BuyAnyInsurance home">
-      <img class="nav-logo" src="https://d2ol7oe51mr4n9.cloudfront.net/user_3Di5qPzoAHKv5CR6Y1cNTvrEu5O/f0d8b43a-d050-4efc-8faa-0bc30a8a1c23.png" alt="BuyAnyInsurance.ae" width="386" height="80">
+      <img class="nav-logo" src="/brand/logo-ice.png" alt="BuyAnyInsurance" width="1121" height="109">
     </a>
     <nav class="nav-links" aria-label="Sections">
       <a href="#how">How it works</a>
@@ -41,20 +41,12 @@
 
 <main>
 
-  <!-- Hero: layered still from the film -->
+  <!-- Hero: brand layout, film still framed in a rounded card with the orange loop -->
   <section class="hero" aria-labelledby="hero-title">
-    <div class="hero-stage" data-parallax-stage>
-      <img class="layer layer--bg" src="https://d2ol7oe51mr4n9.cloudfront.net/user_3Di5qPzoAHKv5CR6Y1cNTvrEu5O/8d938721-3f81-46f4-abce-9f1b1217a7c1.webp" alt="" aria-hidden="true">
-      <p class="hero-word" data-parallax-title aria-hidden="true">covered.</p>
-      <img class="layer layer--fg" src="https://d2ol7oe51mr4n9.cloudfront.net/user_3Di5qPzoAHKv5CR6Y1cNTvrEu5O/0600e89c-edb1-498e-8651-405799dcde5b.webp" alt="" aria-hidden="true">
-      <div class="hero-fade" aria-hidden="true"></div>
-    </div>
-    <div class="wrap hero-bar">
-      <div>
+    <div class="wrap hero-grid">
+      <div class="hero-copy">
         <span class="chip chip--light"><span class="chip-ico chip-ico--orange"><i class="ico ico--car"></i></span>Car Insurance</span>
         <h1 id="hero-title" class="hero-h1">Don't carry the damage alone.</h1>
-      </div>
-      <div class="hero-side">
         <p class="hero-lede">Compare car insurance quotes from top UAE insurers, save up to 30%, and get your policy in minutes.</p>
         <div class="hero-ctas">
           <a class="btn btn--orange" href="#quote">
@@ -63,6 +55,16 @@
           </a>
           <a class="call" href="tel:800765429">800 765 429</a>
         </div>
+      </div>
+      <div class="hero-visual" aria-hidden="true">
+        <svg class="doodle doodle--hero" viewBox="0 0 1470 2000" fill="none">
+          <path data-draw pathLength="1" d="M300 145C470 103 620 92 760 105C990 126 1135 300 1135 580C1135 850 900 1037 570 1037C350 1037 210 935 210 825C210 700 360 610 620 640C1010 690 1365 960 1365 1310C1365 1530 1260 1690 1130 1765C1010 1835 900 1860 800 1860C560 1860 330 1680 145 1370C210 1510 300 1800 90 1890"/>
+        </svg>
+        <div class="hero-card">
+          <img src="https://d2ol7oe51mr4n9.cloudfront.net/user_3Di5qPzoAHKv5CR6Y1cNTvrEu5O/8d938721-3f81-46f4-abce-9f1b1217a7c1.webp" alt="" width="2560" height="1434">
+        </div>
+        <span class="tag tag--navy hero-tag">Compare,<br>choose, buy</span>
+        <span class="chip chip--light hero-chip"><span class="chip-ico chip-ico--orange"><i class="ico ico--car"></i></span>Covered in minutes</span>
       </div>
     </div>
   </section>
@@ -163,7 +165,7 @@
         </svg>
         <div class="quote-copy">
           <h2 class="h2">Get your quote before the next rain.</h2>
-          <p class="body-lg">Share a few details and our team replies on WhatsApp with quotes from leading UAE insurers.</p>
+          <p class="body-lg">Share a few details and our team gets back to you with quotes from leading UAE insurers.</p>
           <a class="call call--ice" href="tel:800765429">Prefer to talk? 800 765 429</a>
         </div>
         <form class="form" id="quote-form" novalidate>
@@ -183,8 +185,10 @@
             </div>
           </div>
           <p class="form-error" id="form-error" role="alert" hidden></p>
-          <button type="submit" class="btn btn--navy btn--block">Send on WhatsApp</button>
-          <p class="form-note">Opens WhatsApp with your details filled in. Nothing is sent until you press send.</p>
+          <div class="form-done" id="form-done" role="status" hidden><h3>Thanks, we have your details.</h3><p>Our team will contact you shortly with your quotes. Need it faster? Call <a href="tel:800765429">800 765 429</a> or <a href="https://wa.me/971581935845" target="_blank" rel="noopener">WhatsApp us</a>.</p></div>
+          <input type="text" name="_honey" class="hp" tabindex="-1" autocomplete="off" aria-hidden="true">
+          <button type="submit" class="btn btn--navy btn--block" id="q-submit">Get my quotes</button>
+          <p class="form-note">Our team replies with quotes from leading UAE insurers. Prefer WhatsApp? <a href="https://wa.me/971581935845" target="_blank" rel="noopener">Chat with us</a>.</p>
         </form>
       </div>
     </div>
@@ -226,7 +230,7 @@
   <div class="footer-base">
     <div class="wrap footer-grid">
       <div>
-        <img class="foot-logo" src="https://d2ol7oe51mr4n9.cloudfront.net/user_3Di5qPzoAHKv5CR6Y1cNTvrEu5O/f0d8b43a-d050-4efc-8faa-0bc30a8a1c23.png" alt="BuyAnyInsurance.ae" width="386" height="80">
+        <img class="foot-logo" src="/brand/logo-ice.png" alt="BuyAnyInsurance" width="1121" height="109">
         <p class="muted">Head Office<br>1406, DAMAC Smart Heights, Barsha Heights, Dubai, UAE</p>
       </div>
       <div class="foot-links">
