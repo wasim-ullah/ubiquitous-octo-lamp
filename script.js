@@ -79,25 +79,40 @@
   update();
 })();
 
-// Quote form: emails each lead to the BuyAnyInsurance team via FormSubmit
+// Quote form: emails each lead to the BuyAnyInsurance team (api/lead.js).
+// If email is unavailable, it falls back to WhatsApp so no lead is lost.
 (function () {
-  var ENDPOINT = "https://formsubmit.co/ajax/wasim.ullah@buyanyinsurance.com";
+  var WHATSAPP = "971581935845";
   var form = document.getElementById("quote-form");
   var err = document.getElementById("form-error");
   var done = document.getElementById("form-done");
   var btn = document.getElementById("q-submit");
   if (!form) return;
 
+  function whatsappFallback(p) {
+    var msg = "Hi BuyAnyInsurance, I'd like a car insurance quote.\nName: " + p.name + "\nMobile: " + p.phone +
+      "\nCar: " + p.car + (p.year ? " (" + p.year + ")" : "") + "\nEmirate: " + p.emirate + "\nCover: " + p.cover;
+    err.innerHTML = 'We could not send that online right now. <a href="https://wa.me/' + WHATSAPP + "?text=" +
+      encodeURIComponent(msg) + '" target="_blank" rel="noopener">Send it on WhatsApp instead</a> or call <a href="tel:800765429">800 765 429</a>.';
+    err.hidden = false;
+    btn.disabled = false;
+    btn.textContent = "Get my quotes";
+  }
+
   form.addEventListener("submit", function (e) {
     e.preventDefault();
     var d = new FormData(form);
-    if (String(d.get("_honey") || "")) return; // bot trap
-    var name = String(d.get("name") || "").trim();
-    var phone = String(d.get("phone") || "").trim();
-    var car = String(d.get("car") || "").trim();
-    var year = String(d.get("year") || "").trim();
-
-    if (!name || phone.replace(/\D/g, "").length < 9 || !car) {
+    var p = {
+      name: String(d.get("name") || "").trim(),
+      phone: String(d.get("phone") || "").trim(),
+      car: String(d.get("car") || "").trim(),
+      year: String(d.get("year") || "").trim(),
+      emirate: String(d.get("emirate") || ""),
+      cover: String(d.get("cover") || ""),
+      page: window.location.href,
+      _honey: String(d.get("_honey") || "")
+    };
+    if (!p.name || p.phone.replace(/\D/g, "").length < 9 || !p.car) {
       err.textContent = "Please add your name, a valid mobile number and your car.";
       err.hidden = false;
       return;
@@ -106,37 +121,22 @@
     btn.disabled = true;
     btn.textContent = "Sending...";
 
-    var payload = {
-      _subject: "New car insurance lead: " + name + " (" + car + ")",
-      _template: "table",
-      _captcha: "false",
-      Name: name,
-      Mobile: phone,
-      Car: car + (year ? " (" + year + ")" : ""),
-      Emirate: String(d.get("emirate")),
-      Cover: String(d.get("cover")),
-      Page: window.location.href
-    };
-
-    fetch(ENDPOINT, {
+    var ctrl = "AbortController" in window ? new AbortController() : null;
+    var timer = setTimeout(function () { if (ctrl) ctrl.abort(); }, 15000);
+    fetch("/api/lead", {
       method: "POST",
-      headers: { "Content-Type": "application/json", "Accept": "application/json" },
-      body: JSON.stringify(payload)
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify(p),
+      signal: ctrl ? ctrl.signal : undefined
     })
-      .then(function (r) { return r.json().then(function (j) { return { ok: r.ok, j: j }; }); })
-      .then(function (res) {
-        if (!res.ok || String(res.j.success) === "false") throw new Error(res.j.message || "Send failed");
+      .then(function (r) { clearTimeout(timer); if (!r.ok) throw new Error(String(r.status)); return r.json(); })
+      .then(function () {
         form.querySelector(".fields").hidden = true;
         btn.hidden = true;
         form.querySelector(".form-note").hidden = true;
         done.hidden = false;
         if (window.fbq) window.fbq("track", "Lead");
       })
-      .catch(function () {
-        err.innerHTML = 'Sorry, that did not go through. Please call <a href="tel:800765429">800 765 429</a> or <a href="https://wa.me/971581935845" target="_blank" rel="noopener">WhatsApp us</a>.';
-        err.hidden = false;
-        btn.disabled = false;
-        btn.textContent = "Get my quotes";
-      });
+      .catch(function () { clearTimeout(timer); whatsappFallback(p); });
   });
 })();
