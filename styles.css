@@ -198,8 +198,9 @@ h1, h2, h3, p, figure { margin: 0; }
 /* why */
 .why-grid { display: grid; gap: 16px; }
 @media (min-width: 1000px) { .why-grid { grid-template-columns: 1fr 1.25fr; } }
-.card--art { padding: 0; background: var(--blue); aspect-ratio: 1 / 1; align-self: center; }
-.card--art img { width: 100%; height: 100%; object-fit: cover; }
+.card--art { padding: 0; align-self: stretch; min-height: 0; aspect-ratio: 1 / 1; background: linear-gradient(180deg, #2b6cfe 50%, #000266 50%); }
+@media (min-width: 1000px) { .card--art { aspect-ratio: auto; } }
+.card--art img { width: 100%; height: 100%; object-fit: contain; object-position: center; }
 .card--art figcaption { position: absolute; left: 32px; top: 28px; color: var(--navy); font-weight: 800; font-size: clamp(32px, 3.4vw, 48px); line-height: 0.95; letter-spacing: -0.02em; }
 .why-list { list-style: none; margin: 40px 0 0; padding: 0; display: grid; gap: 0; }
 @media (min-width: 640px) { .why-list { grid-template-columns: 1fr 1fr; column-gap: 32px; } }
