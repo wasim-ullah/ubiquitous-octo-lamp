@@ -155,6 +155,14 @@ var UTMS = readUtms();
         form.querySelector(".form-note").hidden = true;
         done.hidden = false;
         if (window.fbq) window.fbq("track", "Lead");
+        window.dataLayer = window.dataLayer || [];
+        window.dataLayer.push({
+          event: "generate_lead",
+          lead_type: "car_insurance",
+          cover_type: p.cover,
+          utm_source: p.utm_source, utm_medium: p.utm_medium, utm_campaign: p.utm_campaign,
+          utm_content: p.utm_content, utm_term: p.utm_term
+        });
       })
       .catch(function () { clearTimeout(timer); whatsappFallback(p); });
   });
