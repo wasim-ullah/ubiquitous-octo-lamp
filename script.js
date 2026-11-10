@@ -79,8 +79,27 @@
   update();
 })();
 
-// Quote form: emails each lead to the BuyAnyInsurance team (api/lead.js).
-// If email is unavailable, it falls back to WhatsApp so no lead is lost.
+// Campaign tracking: UTM values come from the landing page URL, with this campaign's defaults.
+var UTM_DEFAULTS = {
+  utm_source: "facebook",
+  utm_medium: "paid",
+  utm_campaign: "ca_nov10_101126_en",
+  utm_content: "nov10_en",
+  utm_term: "nov10"
+};
+function readUtms() {
+  var out = {}, q = new URLSearchParams(window.location.search), saved = {};
+  try { saved = JSON.parse(sessionStorage.getItem("bai_utm") || "{}"); } catch (e) {}
+  Object.keys(UTM_DEFAULTS).forEach(function (k) {
+    out[k] = (q.get(k) || saved[k] || UTM_DEFAULTS[k]).slice(0, 120);
+  });
+  try { sessionStorage.setItem("bai_utm", JSON.stringify(out)); } catch (e) {}
+  return out;
+}
+var UTMS = readUtms();
+
+// Quote form: sends each lead to Skye and by email (api/lead.js).
+// If both fail, it falls back to WhatsApp so no lead is lost.
 (function () {
   var WHATSAPP = "971581935845";
   var form = document.getElementById("quote-form");
@@ -91,7 +110,7 @@
 
   function whatsappFallback(p) {
     var msg = "Hi BuyAnyInsurance, I'd like a car insurance quote.\nName: " + p.name + "\nMobile: " + p.phone +
-      "\nCar: " + p.car + (p.year ? " (" + p.year + ")" : "") + "\nEmirate: " + p.emirate + "\nCover: " + p.cover;
+      "\nEmail: " + p.email + "\nCover: " + p.cover;
     err.innerHTML = 'We could not send that online right now. <a href="https://wa.me/' + WHATSAPP + "?text=" +
       encodeURIComponent(msg) + '" target="_blank" rel="noopener">Send it on WhatsApp instead</a> or call <a href="tel:800765429">800 765 429</a>.';
     err.hidden = false;
@@ -105,15 +124,15 @@
     var p = {
       name: String(d.get("name") || "").trim(),
       phone: String(d.get("phone") || "").trim(),
-      car: String(d.get("car") || "").trim(),
-      year: String(d.get("year") || "").trim(),
-      emirate: String(d.get("emirate") || ""),
-      cover: String(d.get("cover") || ""),
+      email: String(d.get("email") || "").trim(),
+      cover: String(d.get("cover") || "Comprehensive"),
       page: window.location.href,
       _honey: String(d.get("_honey") || "")
     };
-    if (!p.name || p.phone.replace(/\D/g, "").length < 9 || !p.car) {
-      err.textContent = "Please add your name, a valid mobile number and your car.";
+    Object.keys(UTMS).forEach(function (k) { p[k] = UTMS[k]; });
+
+    if (!p.name || p.phone.replace(/\D/g, "").length < 9 || !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(p.email)) {
+      err.textContent = "Please add your name, a valid mobile number and a valid email.";
       err.hidden = false;
       return;
     }
@@ -122,7 +141,7 @@
     btn.textContent = "Sending...";
 
     var ctrl = "AbortController" in window ? new AbortController() : null;
-    var timer = setTimeout(function () { if (ctrl) ctrl.abort(); }, 15000);
+    var timer = setTimeout(function () { if (ctrl) ctrl.abort(); }, 20000);
     fetch("/api/lead", {
       method: "POST",
       headers: { "Content-Type": "application/json" },
