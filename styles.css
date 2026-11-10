@@ -287,3 +287,9 @@ h1, h2, h3, p, figure { margin: 0; }
 }
 .seg input:checked + span { background: var(--navy); border-color: var(--navy); color: #fff; }
 .seg input:focus-visible + span { box-shadow: 0 0 0 3px rgba(45,107,255,0.35); }
+
+/* ---------- field validation ---------- */
+.field-error { margin: 2px 0 0; font-size: 13px; font-weight: 600; color: #b3261e; line-height: 1.35; }
+.field-error button { padding: 0; border: 0; background: none; font: inherit; color: var(--blue); text-decoration: underline; text-underline-offset: 3px; cursor: pointer; }
+.field input[aria-invalid="true"] { border-color: #d93025; background: #fff6f5; }
+.field input[aria-invalid="true"]:focus { box-shadow: 0 0 0 3px rgba(217,48,37,0.2); }

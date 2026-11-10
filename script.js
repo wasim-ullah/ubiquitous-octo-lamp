@@ -118,24 +118,49 @@ var UTMS = readUtms();
     btn.textContent = "Get my quotes";
   }
 
+  var V = window.BAIValidate;
+  var inputs = { name: document.getElementById("q-name"), phone: document.getElementById("q-phone"), email: document.getElementById("q-email") };
+  var checks = { name: V.checkName, phone: V.checkPhone, email: V.checkEmail };
+
+  function showField(key, res) {
+    var el = inputs[key], box = document.getElementById("err-" + key);
+    if (res.ok) { el.removeAttribute("aria-invalid"); box.hidden = true; box.textContent = ""; return; }
+    el.setAttribute("aria-invalid", "true");
+    box.textContent = res.msg;
+    if (res.suggest) {
+      box.textContent = "";
+      var b = document.createElement("button"); b.type = "button"; b.textContent = "Did you mean " + res.suggest + "?";
+      b.addEventListener("click", function () { el.value = res.suggest; validateField(key); el.focus(); });
+      box.appendChild(b);
+    }
+    box.hidden = false;
+  }
+  function validateField(key) { var r = checks[key](inputs[key].value); showField(key, r); return r; }
+  Object.keys(inputs).forEach(function (k) {
+    inputs[k].addEventListener("blur", function () { if (inputs[k].value.trim()) validateField(k); });
+    inputs[k].addEventListener("input", function () { if (inputs[k].getAttribute("aria-invalid")) validateField(k); });
+  });
+
   form.addEventListener("submit", function (e) {
     e.preventDefault();
     var d = new FormData(form);
+    if (String(d.get("_honey") || "")) return;
+    var rn = validateField("name"), rp = validateField("phone"), re = validateField("email");
+    if (!rn.ok || !rp.ok || !re.ok) {
+      err.hidden = true;
+      (!rn.ok ? inputs.name : !rp.ok ? inputs.phone : inputs.email).focus();
+      return;
+    }
     var p = {
-      name: String(d.get("name") || "").trim(),
-      phone: String(d.get("phone") || "").trim(),
-      email: String(d.get("email") || "").trim(),
+      name: rn.value,
+      phone: rp.value,
+      email: re.value,
       cover: String(d.get("cover") || "Comprehensive"),
       page: window.location.href,
-      _honey: String(d.get("_honey") || "")
+      _honey: ""
     };
     Object.keys(UTMS).forEach(function (k) { p[k] = UTMS[k]; });
 
-    if (!p.name || p.phone.replace(/\D/g, "").length < 9 || !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(p.email)) {
-      err.textContent = "Please add your name, a valid mobile number and a valid email.";
-      err.hidden = false;
-      return;
-    }
     err.hidden = true;
     btn.disabled = true;
     btn.textContent = "Sending...";
@@ -148,7 +173,16 @@ var UTMS = readUtms();
       body: JSON.stringify(p),
       signal: ctrl ? ctrl.signal : undefined
     })
-      .then(function (r) { clearTimeout(timer); if (!r.ok) throw new Error(String(r.status)); return r.json(); })
+      .then(function (r) {
+        clearTimeout(timer);
+        if (r.status === 400) return r.json().then(function (j) {
+          if (j && j.field && inputs[j.field]) { showField(j.field, { ok: false, msg: j.message || "Please check this field." }); inputs[j.field].focus(); }
+          btn.disabled = false; btn.textContent = "Get my quotes";
+          throw { handled: true };
+        });
+        if (!r.ok) throw new Error(String(r.status));
+        return r.json();
+      })
       .then(function () {
         form.querySelector(".fields").hidden = true;
         btn.hidden = true;
@@ -164,6 +198,6 @@ var UTMS = readUtms();
           utm_content: p.utm_content, utm_term: p.utm_term
         });
       })
-      .catch(function () { clearTimeout(timer); whatsappFallback(p); });
+      .catch(function (x) { clearTimeout(timer); if (x && x.handled) return; whatsappFallback(p); });
   });
 })();

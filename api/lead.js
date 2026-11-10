@@ -6,6 +6,23 @@
 //   SKYE_API_URL     optional, defaults to the endpoint below
 //   LEAD_TO / LEAD_FROM optional email overrides
 
+const dns = require("dns").promises;
+const V = require("../validate.js");
+
+// Does the email domain exist and accept mail? Unknown DNS errors let the lead through.
+async function domainReceivesMail(domain) {
+  const lookup = (fn) => Promise.race([fn, new Promise((_, rej) => setTimeout(() => rej(Object.assign(new Error("timeout"), { code: "ETIMEOUT" })), 2500))]);
+  try {
+    const mx = await lookup(dns.resolveMx(domain));
+    return mx.some((r) => r.exchange && r.exchange !== ".");
+  } catch (e) {
+    if (e.code === "ENOTFOUND" || e.code === "ENODATA" || e.code === "NXDOMAIN") {
+      try { const a = await lookup(dns.resolve4(domain)); return a.length > 0; } catch (e2) { return !(e2.code === "ENOTFOUND" || e2.code === "ENODATA"); }
+    }
+    return true;
+  }
+}
+
 const SKYE_URL = process.env.SKYE_API_URL || "https://ext.buyanyinsurance.ae/api/pabbly/create-lead";
 const TO = process.env.LEAD_TO || "wasim.ullah@buyanyinsurance.com";
 const FROM = process.env.LEAD_FROM || "BuyAnyInsurance Leads <onboarding@resend.dev>";
@@ -109,18 +126,22 @@ module.exports = async (req, res) => {
   if (typeof b === "string") { try { b = JSON.parse(b); } catch { b = {}; } }
   if (b._honey) return res.status(200).json({ ok: true }); // bot trap
 
+  const n = V.checkName(b.name), ph = V.checkPhone(b.phone), em = V.checkEmail(b.email);
+  if (!n.ok) return res.status(400).json({ ok: false, field: "name", message: n.msg });
+  if (!ph.ok) return res.status(400).json({ ok: false, field: "phone", message: ph.msg });
+  if (!em.ok) return res.status(400).json({ ok: false, field: "email", message: em.msg });
+  if (!(await domainReceivesMail(em.domain))) {
+    return res.status(400).json({ ok: false, field: "email", message: "This email address can't receive mail. Please check it." });
+  }
+
   const lead = {
-    name: clip(b.name, 120),
-    phone: clip(b.phone, 40),
-    email: clip(b.email, 160),
+    name: n.value,
+    phone: ph.value,          // +9715XXXXXXXX
+    email: em.value,
     cover: COVERS.includes(b.cover) ? b.cover : "Comprehensive",
     page: clip(b.page, 400),
   };
   for (const k of Object.keys(UTM_DEFAULTS)) lead[k] = utmClean(b[k]) || UTM_DEFAULTS[k];
-
-  if (!lead.name || lead.phone.replace(/\D/g, "").length < 9 || !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(lead.email)) {
-    return res.status(400).json({ ok: false, error: "invalid" });
-  }
 
   const skye = await sendToSkye(lead);
   const mail = await sendEmail(lead, skye);
