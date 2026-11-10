@@ -1,0 +1,86 @@
+/* Luxury landing page (/luxury-car-insurance). Builds on styles.css with a darker, golden-hour palette. */
+.lux { --night: #00003d; --night-2: #000065; --warm: #ffcdb8; background: var(--night); color: #fff; }
+.lux .nav-quote { background: var(--orange); }
+.lux .nav-quote:hover { background: #ff5a26; }
+
+.lx-kicker { font-size: 14px; font-weight: 700; letter-spacing: 0.14em; text-transform: uppercase; color: var(--warm); }
+.lx-h2 { margin-top: 14px; font-weight: 800; font-size: clamp(34px, 4.6vw, 64px); line-height: 1; letter-spacing: -0.025em; max-width: 17ch; }
+.lx-sub { margin-top: 18px; max-width: 46ch; font-size: clamp(16px, 1.3vw, 19px); color: #dfe9f7; }
+.lx-h1 em, .lx-footer .footer-title em { font-style: italic; font-weight: 800; color: var(--warm); }
+
+/* hero */
+.lx-hero { position: relative; overflow: hidden; background:
+  radial-gradient(1100px 600px at 85% 30%, rgba(255,140,60,0.22), transparent 60%),
+  radial-gradient(800px 500px at 0% 100%, rgba(45,107,255,0.25), transparent 60%), var(--night); }
+.lx-hero-grid { display: grid; gap: 40px; align-items: center; padding-top: 112px; padding-bottom: 64px; min-height: min(100svh, 980px); }
+@media (min-width: 1000px) { .lx-hero-grid { grid-template-columns: 1.15fr 0.85fr; gap: 56px; padding-top: 120px; } }
+.lx-h1 { margin-top: 20px; font-weight: 800; font-size: clamp(44px, 6vw, 92px); line-height: 0.95; letter-spacing: -0.03em; max-width: 12ch; color: var(--ice); }
+.lx-lede { margin-top: 22px; max-width: 44ch; font-size: clamp(17px, 1.35vw, 20px); color: #fff; }
+.lx-hero .call { color: #fff; }
+.lx-ticks { list-style: none; margin: 32px 0 0; padding: 0; display: flex; flex-wrap: wrap; gap: 10px; }
+.lx-ticks li { display: inline-flex; align-items: center; gap: 8px; padding: 8px 14px; border-radius: 999px; border: 1px solid rgba(200,221,242,0.35); font-size: 14px; font-weight: 600; color: var(--ice); }
+.lx-ticks li::before { content: ""; width: 8px; height: 8px; border-radius: 50%; background: var(--orange); }
+
+.lx-hero-visual { position: relative; padding: 40px 0 24px; justify-self: center; width: min(100%, 440px); }
+.lx-portrait { position: relative; z-index: 1; aspect-ratio: 4 / 5; border-radius: var(--radius); overflow: hidden; box-shadow: 0 40px 80px -30px rgba(0,0,0,0.7); }
+@media (min-width: 1000px) { .lx-portrait { aspect-ratio: 3 / 4; } }
+.lx-portrait img { width: 100%; height: 100%; object-fit: cover; object-position: center 35%; }
+.lx-loop { right: -14px; top: 0; }
+.lx-tag { position: absolute; z-index: 2; left: -20px; bottom: 64px; }
+@media (max-width: 999px) {
+  .lx-hero-visual { width: min(100%, 360px); padding-top: 32px; }
+  .lx-tag { left: -8px; bottom: 44px; font-size: 16px; }
+  .lx-loop { width: 56px; right: -6px; }
+}
+
+/* three-frame story */
+.lx-moment .lx-h2 { color: var(--ice); }
+.lx-strip { margin-top: 40px; display: grid; gap: 16px; }
+@media (min-width: 760px) { .lx-strip { grid-template-columns: repeat(3, 1fr); } }
+.lx-frame { position: relative; border-radius: var(--radius); overflow: hidden; aspect-ratio: 4 / 5; background: #000; }
+.lx-frame img { width: 100%; height: 100%; object-fit: cover; object-position: center 40%; transition: transform 1.2s cubic-bezier(.2,.7,.2,1); }
+.lx-frame:hover img { transform: scale(1.04); }
+.lx-frame figcaption { position: absolute; inset: auto 0 0 0; padding: 60px 22px 20px; background: linear-gradient(transparent, rgba(0,0,40,0.92)); font-weight: 800; font-size: 21px; line-height: 1.15; }
+.lx-frame figcaption span { display: block; margin-bottom: 6px; font-size: 13px; font-weight: 700; letter-spacing: 0.12em; color: var(--warm); }
+
+/* benefits */
+.lx-cover { background: var(--night-2); color: #fff; }
+.lx-cover .lx-h2 { color: var(--ice); }
+.lx-benefits { list-style: none; margin: 40px 0 0; padding: 0; display: grid; gap: 0 32px; }
+@media (min-width: 700px) { .lx-benefits { grid-template-columns: 1fr 1fr; } }
+@media (min-width: 1100px) { .lx-benefits { grid-template-columns: repeat(3, 1fr); } }
+.lx-benefits li { padding: 22px 0; border-top: 1px solid rgba(200,221,242,0.25); }
+.lx-benefits h3 { font-weight: 800; font-size: 22px; color: var(--warm); }
+.lx-benefits p { margin-top: 6px; font-size: 16px; color: #dfe9f7; max-width: 36ch; }
+.lx-fine { margin-top: 24px; font-size: 13px; color: #9fb0d6; }
+
+/* film */
+.lx-film-grid { display: grid; gap: 40px; align-items: center; }
+@media (min-width: 900px) { .lx-film-grid { grid-template-columns: 1fr auto; gap: 72px; } }
+.lx-film .lx-h2 { color: var(--ice); }
+.lx-film-cta { margin-top: 28px; }
+.lx-phone { width: min(100%, 380px); justify-self: center; aspect-ratio: 9 / 16; border-radius: 34px; overflow: hidden; background: #000; border: 6px solid #12124f; box-shadow: 0 40px 80px -30px rgba(0,0,0,0.8); }
+.lx-phone .film { width: 100%; height: 100%; object-fit: cover; }
+
+/* proof */
+.lx-proof { margin-top: 0; }
+.lx-insurers { margin-top: 36px; }
+.lx-insurers li { background: #fff; color: var(--navy); }
+
+/* quote */
+.lx-quote { display: grid; gap: 40px; align-items: start; background:
+  radial-gradient(700px 400px at 100% 0%, rgba(255,140,60,0.25), transparent 60%), var(--night-2); }
+@media (min-width: 1000px) { .lx-quote { grid-template-columns: 1fr 1.15fr; gap: 64px; } }
+.lx-quote .lx-h2 { color: #fff; }
+.field select { appearance: none; -webkit-appearance: none; cursor: pointer;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='14' height='14' viewBox='0 0 24 24' fill='none' stroke='%23000065' stroke-width='2.5' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M6 9l6 6 6-6'/%3E%3C/svg%3E");
+  background-repeat: no-repeat; background-position: right 16px center; padding-right: 40px; }
+.field select[aria-invalid="true"] { border-color: #d93025; background-color: #fff6f5; }
+.lux .seg span { font-size: 15px; text-align: center; padding: 0 8px; line-height: 1.15; }
+
+/* footer */
+.lx-footer { margin-top: 24px; }
+.lx-footer-hero { background: linear-gradient(180deg, var(--night), var(--night-2)); }
+.lx-footer-card { width: min(100%, 420px); justify-self: center; aspect-ratio: 4 / 5; border-radius: var(--radius); overflow: hidden; box-shadow: 0 40px 80px -30px rgba(0,0,0,0.7); }
+.lx-footer-card img { width: 100%; height: 100%; object-fit: cover; object-position: center 30%; }
+.lux .footer-base { background: #000028; }

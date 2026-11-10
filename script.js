@@ -80,6 +80,7 @@
 })();
 
 // Campaign tracking: UTM values come from the landing page URL, with this campaign's defaults.
+// A page can override the defaults with data-utm-* attributes on <body>.
 var UTM_DEFAULTS = {
   utm_source: "facebook",
   utm_medium: "paid",
@@ -87,13 +88,21 @@ var UTM_DEFAULTS = {
   utm_content: "nov10_en",
   utm_term: "nov10"
 };
+(function () {
+  var ds = document.body ? document.body.dataset : {};
+  Object.keys(UTM_DEFAULTS).forEach(function (k) {
+    var v = ds["utm" + k.charAt(4).toUpperCase() + k.slice(5)]; // utm_campaign -> data-utm-campaign
+    if (v) UTM_DEFAULTS[k] = v;
+  });
+})();
 function readUtms() {
   var out = {}, q = new URLSearchParams(window.location.search), saved = {};
-  try { saved = JSON.parse(sessionStorage.getItem("bai_utm") || "{}"); } catch (e) {}
+  var key = "bai_utm:" + window.location.pathname;
+  try { saved = JSON.parse(sessionStorage.getItem(key) || "{}"); } catch (e) {}
   Object.keys(UTM_DEFAULTS).forEach(function (k) {
     out[k] = (q.get(k) || saved[k] || UTM_DEFAULTS[k]).slice(0, 120);
   });
-  try { sessionStorage.setItem("bai_utm", JSON.stringify(out)); } catch (e) {}
+  try { sessionStorage.setItem(key, JSON.stringify(out)); } catch (e) {}
   return out;
 }
 var UTMS = readUtms();
@@ -110,7 +119,8 @@ var UTMS = readUtms();
 
   function whatsappFallback(p) {
     var msg = "Hi BuyAnyInsurance, I'd like a car insurance quote.\nName: " + p.name + "\nMobile: " + p.phone +
-      "\nEmail: " + p.email + "\nCover: " + p.cover;
+      "\nEmail: " + p.email + "\nCover: " + p.cover +
+      (p.car_make ? "\nCar: " + p.car_make : "") + (p.car_value ? "\nValue: " + p.car_value : "");
     err.innerHTML = 'We could not send that online right now. <a href="https://wa.me/' + WHATSAPP + "?text=" +
       encodeURIComponent(msg) + '" target="_blank" rel="noopener">Send it on WhatsApp instead</a> or call <a href="tel:800765429">800 765 429</a>.';
     err.hidden = false;
@@ -119,8 +129,13 @@ var UTMS = readUtms();
   }
 
   var V = window.BAIValidate;
+  var product = form.dataset.product || "car";
   var inputs = { name: document.getElementById("q-name"), phone: document.getElementById("q-phone"), email: document.getElementById("q-email") };
   var checks = { name: V.checkName, phone: V.checkPhone, email: V.checkEmail };
+  // Luxury page: car make/model and value band
+  if (document.getElementById("q-car")) { inputs.car = document.getElementById("q-car"); checks.car = V.checkCar; }
+  if (document.getElementById("q-value")) { inputs.value = document.getElementById("q-value"); checks.value = V.checkCarValue; }
+  var order = Object.keys(inputs);
 
   function showField(key, res) {
     var el = inputs[key], box = document.getElementById("err-" + key);
@@ -159,29 +174,30 @@ var UTMS = readUtms();
   inputs.phone.addEventListener("input", limitPhone);
   inputs.phone.addEventListener("paste", function () { setTimeout(limitPhone, 0); });
 
-  Object.keys(inputs).forEach(function (k) {
+  order.forEach(function (k) {
     inputs[k].addEventListener("blur", function () { if (inputs[k].value.trim()) validateField(k); });
     inputs[k].addEventListener("input", function () { if (inputs[k].getAttribute("aria-invalid")) validateField(k); });
+    inputs[k].addEventListener("change", function () { if (inputs[k].getAttribute("aria-invalid")) validateField(k); });
   });
 
   form.addEventListener("submit", function (e) {
     e.preventDefault();
     var d = new FormData(form);
     if (String(d.get("_honey") || "")) return;
-    var rn = validateField("name"), rp = validateField("phone"), re = validateField("email");
-    if (!rn.ok || !rp.ok || !re.ok) {
-      err.hidden = true;
-      (!rn.ok ? inputs.name : !rp.ok ? inputs.phone : inputs.email).focus();
-      return;
-    }
+    var res = {}, firstBad = null;
+    order.forEach(function (k) { res[k] = validateField(k); if (!res[k].ok && !firstBad) firstBad = inputs[k]; });
+    if (firstBad) { err.hidden = true; firstBad.focus(); return; }
     var p = {
-      name: rn.value,
-      phone: rp.value,
-      email: re.value,
+      product: product,
+      name: res.name.value,
+      phone: res.phone.value,
+      email: res.email.value,
       cover: String(d.get("cover") || "Comprehensive"),
       page: window.location.href,
       _honey: ""
     };
+    if (res.car) p.car_make = res.car.value;
+    if (res.value) p.car_value = res.value.value;
     Object.keys(UTMS).forEach(function (k) { p[k] = UTMS[k]; });
 
     err.hidden = true;
@@ -215,7 +231,7 @@ var UTMS = readUtms();
         window.dataLayer = window.dataLayer || [];
         window.dataLayer.push({
           event: "generate_lead",
-          lead_type: "car_insurance",
+          lead_type: product === "luxury" ? "luxury_car_insurance" : "car_insurance",
           cover_type: p.cover,
           utm_source: p.utm_source, utm_medium: p.utm_medium, utm_campaign: p.utm_campaign,
           utm_content: p.utm_content, utm_term: p.utm_term

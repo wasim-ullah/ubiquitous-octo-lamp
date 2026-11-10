@@ -66,7 +66,21 @@
     return { ok: true, value: n.slice(0, 120) };
   }
 
-  var api = { checkPhone: checkPhone, checkEmail: checkEmail, checkName: checkName, phoneDigits: phoneDigits };
+  function checkCar(raw) {
+    var c = String(raw || "").trim().replace(/\s+/g, " ");
+    if (c.length < 2 || !/\p{L}/u.test(c)) return { ok: false, msg: "Please enter your car's make and model." };
+    if (/^(test|testing|asdf|qwerty|abc|xyz|dummy|fake|sample|na|none)\b/i.test(c)) return { ok: false, msg: "Please enter your car's make and model." };
+    return { ok: true, value: c.slice(0, 80) };
+  }
+
+  var CAR_VALUES = ["AED 250k to 500k", "AED 500k to 1M", "AED 1M and above"];
+  function checkCarValue(raw) {
+    var v = String(raw || "").trim();
+    if (CAR_VALUES.indexOf(v) === -1) return { ok: false, msg: "Please choose your car's value." };
+    return { ok: true, value: v };
+  }
+
+  var api = { checkPhone: checkPhone, checkEmail: checkEmail, checkName: checkName, checkCar: checkCar, checkCarValue: checkCarValue, CAR_VALUES: CAR_VALUES, phoneDigits: phoneDigits };
   if (typeof module !== "undefined" && module.exports) module.exports = api;
   else root.BAIValidate = api;
 })(typeof window !== "undefined" ? window : this);

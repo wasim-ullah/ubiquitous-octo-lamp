@@ -34,7 +34,12 @@ const UTM_DEFAULTS = {
   utm_content: "nov10_en",
   utm_term: "nov10",
 };
-const COVERS = ["Comprehensive", "Third party"];
+const COVERS = ["Comprehensive", "Third party", "Agency comprehensive"];
+// Per-product UTM defaults (the luxury page runs its own campaign)
+const PRODUCT_UTMS = {
+  car: UTM_DEFAULTS,
+  luxury: { ...UTM_DEFAULTS, utm_campaign: "ca_nov10_luxvalet_en", utm_content: "nov10_lux_en" },
+};
 
 const esc = (s) => String(s == null ? "" : s).replace(/[&<>"']/g, (c) => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;" }[c]));
 const clip = (s, n) => String(s == null ? "" : s).trim().slice(0, n);
@@ -65,6 +70,7 @@ async function sendToSkye(lead) {
     email: lead.email,
     insurance_type: "car",
     cover_type: lead.cover,
+    ...(lead.product === "luxury" ? { car_make: lead.car_make, car_value: lead.car_value, segment: "luxury" } : {}),
     utm_source: lead.utm_source,
     utm_medium: lead.utm_medium,
     utm_campaign: lead.utm_campaign,
@@ -93,14 +99,15 @@ async function sendEmail(lead, skye) {
   const key = process.env.RESEND_API_KEY;
   if (!key) return { ok: false, why: "email_not_configured" };
   const fields = {
-    Name: lead.name, Mobile: lead.phone, Email: lead.email, Cover: lead.cover, Insurance: "Car",
+    Name: lead.name, Mobile: lead.phone, Email: lead.email, Cover: lead.cover,
+    Insurance: lead.product === "luxury" ? "Car (luxury)" : "Car", Car: lead.car_make, "Car value": lead.car_value,
     "UTM source": lead.utm_source, "UTM medium": lead.utm_medium, "UTM campaign": lead.utm_campaign,
     "UTM content": lead.utm_content, "UTM term": lead.utm_term, "Sent to Skye": skye.ok ? "Yes" : `No (${skye.why})`, Page: lead.page,
   };
   const rows = Object.entries(fields).filter(([, v]) => v)
     .map(([k, v]) => `<tr><td style="padding:8px 14px;background:#c8ddf2;color:#000065;font-weight:700">${esc(k)}</td><td style="padding:8px 14px">${esc(v)}</td></tr>`).join("");
   const wa = lead.phone.replace(/\D/g, "").replace(/^0/, "971");
-  const html = `<div style="font-family:Arial,sans-serif;color:#000065"><h2 style="margin:0 0 12px">New car insurance lead</h2>
+  const html = `<div style="font-family:Arial,sans-serif;color:#000065"><h2 style="margin:0 0 12px">New ${lead.product === "luxury" ? "luxury " : ""}car insurance lead</h2>
     <table style="border-collapse:collapse;border:1px solid #c8ddf2">${rows}</table>
     <p style="margin-top:16px">Reply fast: <a href="https://wa.me/${esc(wa)}">WhatsApp ${esc(lead.phone)}</a> · <a href="mailto:${esc(lead.email)}">Email ${esc(lead.email)}</a></p></div>`;
   const text = Object.entries(fields).filter(([, v]) => v).map(([k, v]) => `${k}: ${v}`).join("\n");
@@ -109,7 +116,9 @@ async function sendEmail(lead, skye) {
     const r = await fetch("https://api.resend.com/emails", {
       method: "POST",
       headers: { Authorization: `Bearer ${key}`, "Content-Type": "application/json" },
-      body: JSON.stringify({ from: FROM, to: [TO], reply_to: lead.email, subject: `New car insurance lead: ${lead.name} (${lead.cover})`, html, text }),
+      body: JSON.stringify({ from: FROM, to: [TO], reply_to: lead.email, subject: lead.product === "luxury"
+        ? `New LUXURY car lead: ${lead.name}, ${lead.car_make} (${lead.car_value})`
+        : `New car insurance lead: ${lead.name} (${lead.cover})`, html, text }),
       signal: to.signal,
     });
     if (!r.ok) { console.error("resend", r.status, (await r.text()).slice(0, 500)); return { ok: false, why: `email_${r.status}` }; }
@@ -134,14 +143,25 @@ module.exports = async (req, res) => {
     return res.status(400).json({ ok: false, field: "email", message: "This email address can't receive mail. Please check it." });
   }
 
+  const product = b.product === "luxury" ? "luxury" : "car";
+  let car = null, value = null;
+  if (product === "luxury") {
+    car = V.checkCar(b.car_make); value = V.checkCarValue(b.car_value);
+    if (!car.ok) return res.status(400).json({ ok: false, field: "car", message: car.msg });
+    if (!value.ok) return res.status(400).json({ ok: false, field: "value", message: value.msg });
+  }
+
   const lead = {
+    product,
+    car_make: car ? car.value : "",
+    car_value: value ? value.value : "",
     name: n.value,
     phone: ph.value,          // +9715XXXXXXXX
     email: em.value,
-    cover: COVERS.includes(b.cover) ? b.cover : "Comprehensive",
+    cover: COVERS.includes(b.cover) ? b.cover : (product === "luxury" ? "Agency comprehensive" : "Comprehensive"),
     page: clip(b.page, 400),
   };
-  for (const k of Object.keys(UTM_DEFAULTS)) lead[k] = utmClean(b[k]) || UTM_DEFAULTS[k];
+  for (const k of Object.keys(UTM_DEFAULTS)) lead[k] = utmClean(b[k]) || PRODUCT_UTMS[product][k];
 
   const skye = await sendToSkye(lead);
   const mail = await sendEmail(lead, skye);

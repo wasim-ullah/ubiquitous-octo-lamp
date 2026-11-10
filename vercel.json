@@ -17,7 +17,7 @@
       ]
     },
     {
-      "source": "/(styles.css|script.js)",
+      "source": "/(styles.css|lux.css|script.js|validate.js)",
       "headers": [{ "key": "Cache-Control", "value": "public, max-age=3600" }]
     }
   ]
