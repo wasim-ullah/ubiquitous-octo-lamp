@@ -136,6 +136,29 @@ var UTMS = readUtms();
     box.hidden = false;
   }
   function validateField(key) { var r = checks[key](inputs[key].value); showField(key, r); return r; }
+  // Phone: only digits, spaces, dashes and a leading +, capped at a UAE mobile's length
+  function phoneMaxDigits(v) {
+    var d = v.replace(/\D/g, "");
+    if (v.trim().charAt(0) === "+") return 12;          // +971 5X XXX XXXX
+    if (d.indexOf("00") === 0) return 14;               // 00971 5X XXX XXXX
+    if (d.indexOf("971") === 0) return 12;              // 971 5X XXX XXXX
+    if (d.charAt(0) === "0") return 10;                 // 05X XXX XXXX
+    return 9;                                           // 5X XXX XXXX
+  }
+  function limitPhone() {
+    var el = inputs.phone, v = el.value;
+    var clean = v.replace(/[^\d\s+\-]/g, "").replace(/(?!^)\+/g, "");
+    var max = phoneMaxDigits(clean), n = 0, out = "";
+    for (var i = 0; i < clean.length; i++) {
+      var ch = clean.charAt(i);
+      if (/\d/.test(ch)) { if (n >= max) continue; n++; }
+      out += ch;
+    }
+    if (out !== v) el.value = out;
+  }
+  inputs.phone.addEventListener("input", limitPhone);
+  inputs.phone.addEventListener("paste", function () { setTimeout(limitPhone, 0); });
+
   Object.keys(inputs).forEach(function (k) {
     inputs[k].addEventListener("blur", function () { if (inputs[k].value.trim()) validateField(k); });
     inputs[k].addEventListener("input", function () { if (inputs[k].getAttribute("aria-invalid")) validateField(k); });
