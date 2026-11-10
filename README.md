@@ -19,3 +19,8 @@ Videos and images are served from the Higgsfield media CDN.
 
 - WhatsApp number: `WHATSAPP` in `script.js` and the footer link in `index.html`.
 - Toll-free number: search for `800 765 429` in `index.html`.
+
+## URLs
+
+- Landing page: https://with.buyanyinsurance.ae/car-insurance (served from index.html by a rewrite in vercel.json)
+- https://with.buyanyinsurance.ae/ redirects to https://www.buyanyinsurance.ae/

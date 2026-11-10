@@ -1,5 +1,13 @@
 {
   "cleanUrls": true,
+  "trailingSlash": false,
+  "redirects": [
+    { "source": "/", "destination": "https://www.buyanyinsurance.ae/", "permanent": false },
+    { "source": "/index", "destination": "/car-insurance", "permanent": true }
+  ],
+  "rewrites": [
+    { "source": "/car-insurance", "destination": "/index.html" }
+  ],
   "headers": [
     {
       "source": "/(.*)",
