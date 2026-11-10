@@ -136,7 +136,7 @@ h1, h2, h3, p, figure { margin: 0; }
   background: var(--navy); box-shadow: 0 30px 60px -30px rgba(0,0,60,0.6);
 }
 .hero-card img { width: 100%; height: 100%; object-fit: cover; object-position: center 45%; }
-.hero-loop { position: absolute; z-index: 3; width: 26%; height: auto; right: -5%; top: -2%; pointer-events: none; transform: rotate(-8deg); animation: loop-in 1s cubic-bezier(.2,.7,.2,1) 0.2s both; }
+.hero-loop { position: absolute; z-index: 3; width: 30%; height: auto; right: -7%; top: -6%; pointer-events: none; transform: rotate(-8deg); animation: loop-in 1s cubic-bezier(.2,.7,.2,1) 0.2s both; }
 @keyframes loop-in { from { opacity: 0; transform: rotate(-20deg) scale(0.85); } to { opacity: 1; transform: rotate(-8deg) scale(1); } }
 .hero-tag { position: absolute; z-index: 2; left: -18px; top: 36%; }
 .hero-chip { position: absolute; z-index: 2; right: 24px; bottom: 28px; box-shadow: 0 10px 24px -12px rgba(0,0,60,0.6); }
@@ -144,7 +144,7 @@ h1, h2, h3, p, figure { margin: 0; }
 @media (max-width: 999px) {
   .hero-visual { padding: 24px 0 40px; }
   .hero-tag { left: -6px; top: auto; bottom: 64px; font-size: 16px; }
-  .hero-loop { width: 24%; right: -3%; top: -4%; }
+  .hero-loop { width: 22%; right: 1%; top: -2%; }
 }
 
 /* ---------- blocks and cards ---------- */
