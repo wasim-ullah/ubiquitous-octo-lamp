@@ -6,7 +6,7 @@
     { "source": "/index", "destination": "/car-insurance", "permanent": true }
   ],
   "rewrites": [
-    { "source": "/car-insurance", "destination": "/index.html" }
+    { "source": "/car-insurance", "destination": "/" }
   ],
   "headers": [
     {
