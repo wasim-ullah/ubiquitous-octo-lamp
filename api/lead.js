@@ -29,13 +29,22 @@ function withTimeout(ms) {
   return { signal: c.signal, done: () => clearTimeout(t) };
 }
 
+// Skye expects international format, e.g. +971501234567
+function toIntl(phone) {
+  let d = String(phone).replace(/\D/g, "");
+  if (d.startsWith("00")) d = d.slice(2);
+  if (d.startsWith("0")) d = "971" + d.slice(1);
+  else if (d.length === 9 && d.startsWith("5")) d = "971" + d;
+  return "+" + d;
+}
+
 async function sendToSkye(lead) {
   const token = process.env.SKYE_API_TOKEN;
   if (!token) return { ok: false, why: "skye_not_configured" };
   const body = {
     name: lead.name,
     lead_source: "import_leadgen",
-    phone_number: lead.phone,
+    phone_number: toIntl(lead.phone),
     email: lead.email,
     insurance_type: "car",
     cover_type: lead.cover,
@@ -55,6 +64,8 @@ async function sendToSkye(lead) {
     });
     const text = await r.text();
     if (!r.ok) { console.error("skye", r.status, text.slice(0, 500)); return { ok: false, why: `skye_${r.status}` }; }
+    let j = {}; try { j = JSON.parse(text); } catch {}
+    if (j && j.response && j.response.success === false) { console.error("skye", text.slice(0, 500)); return { ok: false, why: "skye_rejected" }; }
     return { ok: true };
   } catch (e) {
     console.error("skye", e && e.message); return { ok: false, why: "skye_error" };
